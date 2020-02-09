@@ -34,6 +34,7 @@ class User(UserMixin, db.Model):
     def load_user(pitch_user_id):
         return User.query.get(int(pitch_user_id))
 
+
 class UserRights(db.Model):
     __tablename__ = 'rights'
 
