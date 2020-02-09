@@ -4,5 +4,5 @@ from wtforms.validators import DataRequired
 
 
 class UpdateBio(FlaskForm):
-    bio = TextAreaField('Tell us about you.', validators=[DataRequired()])
+    bio = TextAreaField('Your bio.', validators=[DataRequired()])
     submit = SubmitField('Submit')

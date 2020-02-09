@@ -1,29 +1,50 @@
 {% extends 'bootstrap/base.html'%}
 
+{% block navbar %}
+    <div class="container-fluid">
+        {% include 'navbar.html'%}
+    </div>
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <div class="row">
         <!-- displaying  Username-->
-          <div class="col-md-4">
-            <h3> {{user.username| capitalize}} </h3>
+            <div class="col-md-6">
+                <h3> {{user.username| capitalize}} </h3>
+            </div>
+        </div>
+        <div class="row">
+             <div class="col-md-6">
+                 {% if user.profile_pic_path %}
+                    <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
+                 {%else%}
+                    <p>No profile picture</p>
+                 {% endif %}
+
+                 {% if user == current_user %}
+                        <form  action="{{url_for('main.update_pic',uname=user.username)}}" method="post" enctype = "multipart/form-data">
+                          <input type="file"  name="photo" class="form-control" required>
+                          <input type="submit">
+                        </form>
+                 {% endif %}
+              </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
 
             <!--Displaying user bio-->
-            {% if user.bio %}
-              <p> {{user.bio}}</p>
-            {%else%}
-              <p> {{user.username| capitalize}} has no bio </p>
+                {% if user.bio %}
+                  <p> {{user.bio}}</p>
+                {%else%}
+                  <p> {{user.username| capitalize}} has no bio </p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            {% if user == current_user %}
+                <a href="{{url_for('main.update_bio',uname=user.username)}}">Edit profile</a>
             {% endif %}
-          </div>
-
-          <!--Display profile photo-->
-          <div class="col-md-4">
-
-            {% if user.profile_pic_path %}
-            <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
-            {%else%}
-            <p>No profile picture</p>
-            {% endif %}
-          </div>
         </div>
     </div>
 {% endblock %}
