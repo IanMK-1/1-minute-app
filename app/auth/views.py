@@ -13,7 +13,7 @@ def signUp():
         user = User(email=form.email.data, username=form.username.data, password=form.user_password.data)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('user_auth.login'))
+        return redirect(url_for('auth.user_login'))
     return render_template('user_auth/signup.html', signup_form=form)
 
 
@@ -22,7 +22,7 @@ def user_login():
     login_form = UserLoginForm()
     if login_form.validate_on_submit():
         user = User.query.filter_by(email=login_form.email.data).first()
-        if user is not None and user.verify_password(login_form.password.data):
+        if user is not None and user.verify_password(login_form.user_password.data):
             login_user(user, login_form.remember.data)
             return redirect(request.args.get('next') or url_for('main.index'))
 

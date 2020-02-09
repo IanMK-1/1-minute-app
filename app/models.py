@@ -11,6 +11,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(255), index=True)
     email = db.Column(db.String(255), unique=True, index=True)
     user_right_id = db.Column(db.Integer, db.ForeignKey('rights.id'))
+    bio = db.Column(db.String(255))
+    profile_pic_path = db.Column(db.String())
     user_password = db.Column(db.String(255))
 
     # return a printable representation of the object
