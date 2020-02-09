@@ -1,0 +1,13 @@
+.jumbotron {
+    text-align: center;
+    background-color: rgb(109, 19, 109);
+    color: white;
+    font-family: 'Permanent Marker', cursive;
+}
+.description {
+    text-align: center;
+    font-family: 'Cabin', sans-serif;
+}
+.list-group-item {
+    border-color: purple;
+}

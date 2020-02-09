@@ -1,19 +1,38 @@
 {% extends 'bootstrap/base.html' %}
 
+{% block navbar %}
+    <div class="container-fluid">
+        {% include 'navbar.html'%}
+    </div>
+{% endblock %}
+
+{% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <link href="https://fonts.googleapis.com/css?family=Cabin&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="jumbotron">
-                <h1>The 1 minute pitch app</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron">
+                    <h1>The 1 minute pitch app</h1>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="description">
-                    <p> The 1 minute pitch app allows user to add their 1 minute pitch and post it. The pitch can be voted
-                    upon by other users and can be commented upon. The pitches are categorised in the 4 categories.</p>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="list-group-item">
+                        <div class="description">
+                            <h3>About</h3>
+                            <p> The 1 minute pitch app allows user to add their 1 minute pitch and post it. The pitch can be voted
+                            upon by other users and can be commented on. The pitches are categorised into 4 categories.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
