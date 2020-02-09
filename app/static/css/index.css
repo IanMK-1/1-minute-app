@@ -10,4 +10,10 @@
 }
 .list-group-item {
     border-color: purple;
+    font-family: 'Cabin', sans-serif;
+}
+#sub-heading {
+text-align: center;
+    font-family: 'Cabin', sans-serif;
+    margin-top: 40px;
 }
