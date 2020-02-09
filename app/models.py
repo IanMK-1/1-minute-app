@@ -2,6 +2,7 @@ from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from datetime import datetime
 
 
 class User(UserMixin, db.Model):
@@ -14,6 +15,7 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     user_password = db.Column(db.String(255))
+    user_pitch_id = db.Column(db.Integer, db.ForeignKey('pitches.id'))
 
     # return a printable representation of the object
     def __repr__(self):
@@ -45,3 +47,40 @@ class UserRights(db.Model):
     # return a printable representation of the object
     def __repr__(self):
         return f'User {self.user_rights}'
+
+
+class Pitch(db.Model):
+    __tablename__ = 'pitches'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
+    pitch = db.Column(db.String())
+    type = db.Column(db.String())
+    posted = db.Column(db.DateTime, default=datetime.utcnow)
+    upvote = db.Column(db.Integer)
+    downvote = db.Column(db.Integer)
+    user_pitches = db.relationship('User', backref='user_pitch', lazy='dynamic')
+
+    def save_user_pitch(self):
+        db.session.add(self)
+
+    @classmethod
+    def obtain_all_pitches(cls, type):
+        all_pitches = Pitch.query.filter_by(type=type).all()
+        return all_pitches
+
+    @classmethod
+    def obtain_user_pitch(cls, id):
+        user_pitch = Pitch.query.filter_by(id=id).first()
+        return user_pitch
+
+    @classmethod
+    def vote_pitch(cls, uname):
+        user = User.query.filter_by(username=uname).first()
+        pitch = Pitch.query.filter_by(id=user.id).all()
+
+        vote_count = 0
+        for user_pitch in pitch:
+            vote_count += 1
+
+        return vote_count

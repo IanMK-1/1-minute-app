@@ -1,8 +1,8 @@
 from flask import render_template, request, redirect, url_for, abort
 from . import main
-from flask_login import login_required
-from ..models import User
-from .main_form import UpdateBio
+from flask_login import login_required, current_user
+from ..models import User, Pitch
+from .main_form import UpdateBio, UserPitchForm
 from .. import db, photos
 
 
@@ -14,7 +14,17 @@ def index():
 @main.route('/pitch/new-pitch')
 @login_required
 def new_pitch():
-    return render_template('pitch.html')
+    user_pitch = UserPitchForm()
+    if user_pitch.validate_on_submit():
+        title = user_pitch.title.data
+        pitch = user_pitch.pitch.data
+        type = user_pitch.type.data
+
+        new_user_pitch = Pitch(title=title, pitch=pitch, type=type, user=current_user, upvote=0, downvote=0)
+
+        new_user_pitch.save_user_pitch()
+        return redirect(url_for('.index'))
+    return render_template('pitch.html', user_pitch=user_pitch)
 
 
 @main.route('/user/<uname>')
