@@ -67,3 +67,31 @@ def update_pic(uname):
         user.profile_pic_path = path
         db.session.commit()
     return redirect(url_for('main.profile', uname=uname))
+
+
+@main.route('/pitches/pick_up_lines_pitches')
+def pickup_pitches():
+    pitches = Pitch.obtain_all_pitches('pick up lines')
+
+    return render_template("pick_up.html", pitches=pitches)
+
+
+@main.route('/pitches/interview_pitches')
+def interview_pitches():
+    pitches = Pitch.obtain_all_pitches('interview')
+
+    return render_template("interview.html", pitches=pitches)
+
+
+@main.route('/pitches/product_pitches')
+def product_pitches():
+    pitches = Pitch.obtain_all_pitches('product')
+
+    return render_template("product.html", pitches=pitches)
+
+
+@main.route('/pitches/promotion_pitches')
+def promotion_pitches():
+    pitches = Pitch.obtain_all_pitches('promotion')
+
+    return render_template("promotion.html", pitches=pitches)
