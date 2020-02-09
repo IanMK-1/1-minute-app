@@ -23,7 +23,7 @@ class User(db.Model):
         self.user_password = generate_password_hash(password)
 
     def verify_password(self, password):
-        return check_password_hash(self.pass_secure, password)
+        return check_password_hash(self.user_password, password)
 
 
 class UserRights(db.Model):
