@@ -13,7 +13,13 @@
     font-family: 'Cabin', sans-serif;
 }
 #sub-heading {
-text-align: center;
+    text-align: center;
     font-family: 'Cabin', sans-serif;
     margin-top: 40px;
+}
+.post {
+    text-align: center;
+    font-family: 'Cabin', sans-serif;
+    margin-top: 30px;
+    margin-bottom: 50px;
 }
