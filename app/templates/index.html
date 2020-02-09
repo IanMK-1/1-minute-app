@@ -1,11 +1,5 @@
 {% extends 'bootstrap/base.html' %}
 
-{% block navbar %}
-    <div class="container-fluid">
-        {% include 'navbar.html'%}
-    </div>
-{% endblock %}
-
 {% block styles%}
     {{ super() }}
     <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">

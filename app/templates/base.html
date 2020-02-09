@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Welcome to The 1 minute pitch app</title>
-    </head>
-    <body>
-        <div class="container-fluid">
-            {% block content %}
+{% block navbar %}
+    <div class="container-fluid">
+        {% include 'navbar.html'%}
+    </div>
+{% endblock %}
 
-            {% endblock %}
-        </div>
-    </body>
-</html>
+{% block content %}
+
+{% endblock %}
