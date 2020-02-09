@@ -23,3 +23,9 @@
     margin-top: 30px;
     margin-bottom: 50px;
 }
+.container {
+    font-family: 'Cabin', sans-serif;
+}
+#edit {
+    margin-top: 20px;
+}

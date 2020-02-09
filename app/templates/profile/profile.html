@@ -6,6 +6,14 @@
     </div>
 {% endblock %}
 
+{% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <link href="https://fonts.googleapis.com/css?family=Cabin&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <div class="row">
@@ -15,36 +23,41 @@
             </div>
         </div>
         <div class="row">
-             <div class="col-md-6">
-                 {% if user.profile_pic_path %}
+            <div class="col-md-6">
+                {% if user.profile_pic_path %}
                     <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
-                 {%else%}
+                {%else%}
                     <p>No profile picture</p>
-                 {% endif %}
+                {% endif %}
 
-                 {% if user == current_user %}
-                        <form  action="{{url_for('main.update_pic',uname=user.username)}}" method="post" enctype = "multipart/form-data">
-                          <input type="file"  name="photo" class="form-control" required>
-                          <input type="submit">
-                        </form>
-                 {% endif %}
-              </div>
-        </div>
-        <div class="row">
+                {% if user == current_user %}
+                    <form  action="{{url_for('main.update_pic',uname=user.username)}}" method="post" enctype = "multipart/form-data">
+                        <input type="file"  name="photo" class="form-control" required>
+                        <input type="submit">
+                    </form>
+                {% endif %}
+             </div>
+
+
             <div class="col-md-6">
 
             <!--Displaying user bio-->
+                <h3>Bio</h3>
+
                 {% if user.bio %}
-                  <p> {{user.bio}}</p>
+                  <div class="list-group-item">
+                      <p> {{user.bio}}</p>
+                  </div>
                 {%else%}
                   <p> {{user.username| capitalize}} has no bio </p>
                 {% endif %}
+
+                {% if user == current_user %}
+                    <div id="edit">
+                        <a href="{{url_for('main.update_bio',uname=user.username)}}">Edit profile</a>
+                    </div>
+                {% endif %}
             </div>
-        </div>
-        <div class="row">
-            {% if user == current_user %}
-                <a href="{{url_for('main.update_bio',uname=user.username)}}">Edit profile</a>
-            {% endif %}
         </div>
     </div>
 {% endblock %}
