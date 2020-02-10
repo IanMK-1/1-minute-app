@@ -15,7 +15,7 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     user_password = db.Column(db.String(255))
-    user_pitch_id = db.Column(db.Integer, db.ForeignKey('pitches.id'))
+    user_pitches = db.relationship('Pitch', backref='user_pitch', lazy='dynamic')
 
     # return a printable representation of the object
     def __repr__(self):
@@ -54,15 +54,16 @@ class Pitch(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
-    pitch = db.Column(db.String())
-    type = db.Column(db.String())
+    pitch = db.Column(db.String(1000))
+    type = db.Column(db.String)
     posted = db.Column(db.DateTime, default=datetime.utcnow)
     upvote = db.Column(db.Integer)
     downvote = db.Column(db.Integer)
-    user_pitches = db.relationship('User', backref='user_pitch', lazy='dynamic')
+    user_pitch_id = db.Column(db.Integer, db.ForeignKey('pitch_users.id'))
 
     def save_user_pitch(self):
         db.session.add(self)
+        db.session.commit()
 
     @classmethod
     def obtain_all_pitches(cls, type):

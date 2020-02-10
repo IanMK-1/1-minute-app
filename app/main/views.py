@@ -8,10 +8,11 @@ from .. import db, photos
 
 @main.route('/')
 def index():
+
     return render_template('index.html')
 
 
-@main.route('/pitch/new-pitch')
+@main.route('/pitch/new_pitch', methods=['POST', 'GET'])
 @login_required
 def new_pitch():
     user_pitch = UserPitchForm()
@@ -20,11 +21,13 @@ def new_pitch():
         pitch = user_pitch.pitch.data
         type = user_pitch.type.data
 
-        new_user_pitch = Pitch(title=title, pitch=pitch, type=type, user=current_user, upvote=0, downvote=0)
+        new_user_pitch = Pitch(title=title, pitch=pitch, type=type, upvote=0, downvote=0, user_pitch=current_user)
 
-        new_user_pitch.save_user_pitch()
+        db.session.add(new_user_pitch)
+        db.session.commit()
         return redirect(url_for('.index'))
-    return render_template('pitch.html', user_pitch=user_pitch)
+
+    return render_template("pitch.html", user_pitch=user_pitch)
 
 
 @main.route('/user/<uname>')
