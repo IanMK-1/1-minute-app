@@ -31,6 +31,9 @@
 ### Link
 [Github](https://github.com/IanMK-1/1-minute-app)
 
+### Codebeat
+[![codebeat badge](https://codebeat.co/badges/3f216d5c-87e5-49c8-8704-36d6c3d01dfc)](https://codebeat.co/projects/github-com-ianmk-1-1-minute-app-master)
+
 ### Contacts
 Email: iankimotho233@gmail.com
 
