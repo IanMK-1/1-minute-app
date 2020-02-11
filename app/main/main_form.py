@@ -14,3 +14,8 @@ class UserPitchForm(FlaskForm):
     type = SelectField('Type', choices=[('product', 'Product pitch'), ('pick up lines', 'Pick Up lines pitch'),
                                         ('interview', 'Interview pitch'), ('promotion', 'Promotion pitch')])
     submit = SubmitField('Submit')
+
+
+class UserCommentForm(FlaskForm):
+    comment = TextAreaField('Comment', validators=[DataRequired()])
+    submit = SubmitField('submit')

@@ -1,0 +1,43 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'macros.html' as macro %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block navbar %}
+    <div class="container-fluid">
+        {% include 'navbar.html'%}
+    </div>
+{% endblock %}
+
+{% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <link href="https://fonts.googleapis.com/css?family=Cabin&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+{% endblock %}
+
+{%block content%}
+    <div class="container">
+        <div class="row">
+            <h3>{{user_pitch.title}}</h3>
+            <p>{{user_pitch.pitch}}</p>
+            <p>Posted by: {{user_pitch.user_pitch.username}}</p>
+            <p>Posted On: {{date}}</p>
+            <a href="/user/comment/{{user_pitch.id}}?like=1"><i class="far fa-thumbs-up"></i></a>{{user_pitch.upvote}}
+            <a href="/user/comment/{{user_pitch.id}}?dislike=1"><i class="far fa-thumbs-down"></i></a>{{user_pitch.downvote}}
+        </div>
+        <div class="row">
+            <h3>Comments</h3>
+            {% if current_user.is_authenticated %}
+                {{ wtf.quick_form(form)}}
+            {%endif%}
+        </div>
+        <div class="row">
+            <hr>
+            <div class="col-md-12">
+                {{macro.displayUserComments(comments)}}
+            </div>
+        </div>
+    </div>
+{%endblock%}

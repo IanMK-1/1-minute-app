@@ -16,6 +16,7 @@ class User(UserMixin, db.Model):
     profile_pic_path = db.Column(db.String())
     user_password = db.Column(db.String(255))
     user_pitches = db.relationship('Pitch', backref='user_pitch', lazy='dynamic')
+    user_comments = db.relationship('Comment', backref='user', lazy='dynamic')
 
     # return a printable representation of the object
     def __repr__(self):
@@ -56,10 +57,12 @@ class Pitch(db.Model):
     title = db.Column(db.String(255))
     pitch = db.Column(db.String(1000))
     type = db.Column(db.String)
-    posted = db.Column(db.DateTime, default=datetime.utcnow)
+    posted_at = db.Column(db.DateTime, default=datetime.utcnow)
     upvote = db.Column(db.Integer)
     downvote = db.Column(db.Integer)
     user_pitch_id = db.Column(db.Integer, db.ForeignKey('pitch_users.id'))
+
+    comment = db.relationship('Comment', backref='comment_id', lazy='dynamic')
 
     def save_user_pitch(self):
         db.session.add(self)
@@ -85,3 +88,21 @@ class Pitch(db.Model):
             vote_count += 1
 
         return vote_count
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    comment = db.Column(db.String())
+    user_comment = db.Column(db.Integer, db.ForeignKey('pitch_users.id'))
+    user_pitch = db.Column(db.Integer, db.ForeignKey('pitches.id'))
+
+    def save_user_comments(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def obtain_user_comments(cls, user_pitch):
+        user = Comment.query.filter_by(comment_id=user_pitch).all()
+        return user

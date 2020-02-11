@@ -1,14 +1,14 @@
 from flask import render_template, request, redirect, url_for, abort
 from . import main
 from flask_login import login_required, current_user
-from ..models import User, Pitch
-from .main_form import UpdateBio, UserPitchForm
+from ..models import User, Pitch, Comment
+from .main_form import UpdateBio, UserPitchForm, UserCommentForm
 from .. import db, photos
+from datetime import datetime
 
 
 @main.route('/')
 def index():
-
     return render_template('index.html')
 
 
@@ -98,3 +98,41 @@ def promotion_pitches():
     pitches = Pitch.obtain_all_pitches('promotion')
 
     return render_template("promotion.html", pitches=pitches)
+
+
+@main.route('/user/comment/<int:id>', methods=['GET', 'POST'])
+@login_required
+def get_user_comment(id):
+    form = UserCommentForm()
+    user_pitch = Pitch.obtain_user_pitch(id)
+
+    if form.validate_on_submit():
+        comment = form.comment.data
+
+        user_comment = Comment(comment=comment, user=current_user, comment_id=user_pitch)
+        db.session.add(user_comment)
+        db.session.commit()
+
+        return redirect("/user/comment/{user_pitch_id}".format(user_pitch_id=user_pitch.id))
+
+    date_of_post = user_pitch.posted_at
+
+    if request.args.get("like"):
+        user_pitch.upvote = user_pitch.upvote + 1
+
+        db.session.add(user_pitch)
+        db.session.commit()
+
+        return redirect("/user/comment/{user_pitch_id}".format(user_pitch_id=user_pitch.id))
+
+    elif request.args.get("dislike"):
+        user_pitch.downvote = user_pitch.downvote + 1
+
+        db.session.add(user_pitch)
+        db.session.commit()
+
+        return redirect("/user/comment/{user_pitch_id}".format(user_pitch_id=user_pitch.id))
+
+    comments = Comment.obtain_user_comments(user_pitch)
+
+    return render_template('comment.html', user_pitch=user_pitch, form=form, comments=comments, date=date_of_post)
