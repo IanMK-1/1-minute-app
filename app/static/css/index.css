@@ -11,6 +11,7 @@
 .list-group-item {
     border-color: purple;
     font-family: 'Cabin', sans-serif;
+    margin-top: 10px;
 }
 #sub-heading {
     text-align: center;
