@@ -77,18 +77,7 @@ class Pitch(db.Model):
     def obtain_user_pitch(cls, id):
         user_pitch = Pitch.query.filter_by(id=id).first()
         return user_pitch
-
-    @classmethod
-    def vote_pitch(cls, uname):
-        user = User.query.filter_by(username=uname).first()
-        pitch = Pitch.query.filter_by(id=user.id).all()
-
-        vote_count = 0
-        for user_pitch in pitch:
-            vote_count += 1
-
-        return vote_count
-
+    
 
 class Comment(db.Model):
     __tablename__ = 'comments'
